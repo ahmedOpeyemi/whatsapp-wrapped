@@ -85,7 +85,7 @@ df_2023["MessageWordCount"] = df_2023["Message"].apply(
     lambda x: len(x.split()))
 top_5_longest_message_authors = (df_2023
                                     .sort_values(by="MessageWordCount", ascending=False)
-                                    .head(10)[["Sender", "MessageWordCount", "Date"]])
+                                    .head(10)[["Date", "Sender", "MessageWordCount"]])
 
 # Output Results
 print("\n\n ========= Results ========= \n\n")
