@@ -83,8 +83,9 @@ most_active_month = df_2023["DateTime"].dt.month.value_counts().idxmax()
 # Top 5 Longest Message Authors
 df_2023["MessageWordCount"] = df_2023["Message"].apply(
     lambda x: len(x.split()))
-top_5_longest_message_authors = df_2023.groupby(
-    "Sender")["MessageWordCount"].sum().nlargest(10)
+top_5_longest_message_authors = (df_2023
+                                    .sort_values(by="MessageWordCount", ascending=False)
+                                    .head(10)[["Date", "Sender", "MessageWordCount"]])
 
 # Output Results
 print("\n\n ========= Results ========= \n\n")
@@ -111,6 +112,6 @@ print("\nMost Active Week of the Year:", most_active_week)
 print("\nMost Active Month of the Year:", most_active_month)
 
 print("\nTop 10 Longest Message (words) Authors:\n",
-      top_5_longest_message_authors)
+      top_5_longest_message_authors.to_string(index=False))
 
 print("Total messages in 2023 (excluding new joiner messages):", total_messages_2023)
