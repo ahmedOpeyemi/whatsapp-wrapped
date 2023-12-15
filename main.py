@@ -62,8 +62,7 @@ unique_senders_count = df_2023["Sender"].nunique()
 
 # Top 5 Active Members
 top_5_active_members = df_2023["Sender"].value_counts().head(10)
-top_5_active_members_percentage = (
-                                          top_5_active_members / total_messages_2023) * 100
+top_5_active_members_percentage = (top_5_active_members / total_messages_2023) * 100
 
 # Top 5 Most Shared Website Domains
 df_2023["URLs"] = df_2023["Message"].apply(extract_urls)
