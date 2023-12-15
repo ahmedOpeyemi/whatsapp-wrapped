@@ -3,11 +3,13 @@ import re
 from collections import Counter
 from urllib.parse import urlparse
 
+
 # Function to extract URLs from a string
 
 
 def extract_urls(s):
     return re.findall(r"(https?://\S+)", s)
+
 
 # Function to extract the domain from a URL
 
@@ -60,8 +62,7 @@ unique_senders_count = df_2023["Sender"].nunique()
 
 # Top 5 Active Members
 top_5_active_members = df_2023["Sender"].value_counts().head(10)
-top_5_active_members_percentage = (
-    top_5_active_members / total_messages_2023) * 100
+top_5_active_members_percentage = (top_5_active_members / total_messages_2023) * 100
 
 # Top 5 Most Shared Website Domains
 df_2023["URLs"] = df_2023["Message"].apply(extract_urls)
@@ -86,6 +87,12 @@ df_2023["MessageWordCount"] = df_2023["Message"].apply(
 top_5_longest_message_authors = (df_2023
                                     .sort_values(by="MessageWordCount", ascending=False)
                                     .head(10)[["Date", "Sender", "MessageWordCount"]])
+
+# Top 10 Mentions
+mentions = df['Message'].str.extractall(r'(@\d+)')[0].reset_index(drop=True)
+mention_counts = mentions.value_counts().reset_index()
+mention_counts.columns = ['User', 'MentionCount']
+top_10_mentions = mention_counts.head(10)
 
 # Output Results
 print("\n\n ========= Results ========= \n\n")
@@ -113,5 +120,8 @@ print("\nMost Active Month of the Year:", most_active_month)
 
 print("\nTop 10 Longest Message (words) Authors:\n",
       top_5_longest_message_authors.to_string(index=False))
+
+print("\nTop 10 Mentions:\n",
+      top_10_mentions.to_string(index=False))
 
 print("Total messages in 2023 (excluding new joiner messages):", total_messages_2023)
